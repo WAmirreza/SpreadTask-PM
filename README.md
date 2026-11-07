@@ -40,48 +40,6 @@ SpreadTask::spread(
 - **Completion callback** — run logic after the last entry is visited
 - **Tiny surface area** — one class, one static method, no config
 
-## Installation
-
-Drop the `SpreadTask.php` file into your plugin's source tree, or require it via Composer:
-
-```bash
-composer require am/skyminez-useless
-```
-
-Then import and use:
-
-```php
-use AM\SkyMineZ\useless\SpreadTask;
-```
-
-## API
-
-### `SpreadTask::spread()`
-
-```php
-SpreadTask::spread(
-    PluginBase $plugin,
-    iterable $list,
-    int $perTick,
-    callable $callback,        // fn(mixed $entry, int $index): void
-    ?callable $onComplete = null,
-    int $delay = 1
-): ?TaskHandler
-```
-
-| Parameter    | Description                                                        |
-|--------------|--------------------------------------------------------------------|
-| `$plugin`    | Your plugin instance. The task is scheduled through its scheduler. |
-| `$list`      | Any iterable. Materialised once into an array.                     |
-| `$perTick`   | How many entries to visit per tick. Must be ≥ 1.                   |
-| `$callback`  | Called for every entry with `($entry, $index)`.                    |
-| `$onComplete`| Called once after the last entry. Optional.                        |
-| `$delay`     | Initial delay in ticks before the first batch. Defaults to `1`.    |
-
-Returns the `TaskHandler`, or `null` if the list is empty or the plugin is
-disabled. When the list is empty, `$onComplete` still runs so callers stay in
-sync.
-
 ## Choosing `perTick`
 
 Rule of thumb — keep one tick's work under **~25ms** (half the tick budget):
